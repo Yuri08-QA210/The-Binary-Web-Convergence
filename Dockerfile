@@ -18,7 +18,7 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build Next.js
+# Build Next.js (includes pad-binary via build script)
 RUN npm run build
 
 # Expose port
@@ -30,4 +30,4 @@ ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start command
-CMD ["npm", "run", "start:render"]
+CMD ["npm", "run", "start"]

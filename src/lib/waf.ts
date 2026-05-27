@@ -26,7 +26,6 @@ export function wafCheckXXE(
     // after an unescaped <! (XML context), not in general text
     { regex: /<!\[CDATA\b/i, reason: "CDATA section detected" },
     // Only match file:// when preceded by unescaped quote in XML context
-    // (i.e., when it's part of an entity declaration)
     // Weakness: doesn't detect file:// in general text content
     // because SVGs might legitimately contain URLs
     { regex: /php:\/\//i, reason: "php:// protocol detected" },

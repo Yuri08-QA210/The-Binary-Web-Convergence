@@ -10,7 +10,6 @@ import {
   CheckCircle,
   X,
   Loader2,
-  ChevronRight,
   Terminal,
   ArrowDown,
 } from 'lucide-react'
@@ -204,10 +203,6 @@ export default function Home() {
     document.getElementById('upload-section')?.scrollIntoView({ behavior: 'smooth' })
   }
 
-
-
-
-
   // ── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="min-h-screen bg-gray-950 text-gray-100">
@@ -241,7 +236,6 @@ export default function Home() {
               <FileCode className="w-4 h-4 mr-1" />
               Gallery
             </Button>
-
           </nav>
         </div>
       </header>
@@ -282,7 +276,6 @@ export default function Home() {
               <Upload className="w-5 h-5 mr-2" />
               Upload SVG
             </Button>
-
           </div>
 
           {/* Feature pills */}

@@ -95,7 +95,6 @@ export async function POST(request: NextRequest) {
       }
 
       // ---- XML Parsing with XXE support ----
-      // The parser resolves XXE entities in the unescaped content
       const parseResult = parseXMLWithXXE(unescapedContent);
 
       if (!parseResult.success) {
@@ -118,19 +117,13 @@ export async function POST(request: NextRequest) {
       };
 
       // If XXE extracted content, include it in the response
-      // This simulates the content leaking through metadata/error messages
       if (parseResult.extractedContent) {
-        // The leaked content appears as "metadata" in the response
-        // This makes it look like a normal processing artifact
         response.metadata = {
           ...response.metadata,
-          // Leak extracted content as "processing metadata"
           processingNotes: "External entity resolved during SVG processing.",
-          // The actual leaked content - appears as "debug info"
           debugInfo: parseResult.extractedContent,
         };
 
-        // Log successful XXE
         console.log(
           `[XXE] Entity content leaked from ${ip}: ${Object.keys(parseResult.extractedContent).join(", ")}`
         );
@@ -148,7 +141,6 @@ export async function POST(request: NextRequest) {
         } catch {}
       }
 
-      // Include resolved entities count
       if (parseResult.entities && Object.keys(parseResult.entities).length > 0) {
         response.entityCount = Object.keys(parseResult.entities).length;
       }
@@ -163,7 +155,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-  }, 300); // Constant time: 300ms minimum
+  }, 300);
 }
 
 // GET endpoint returns upload page info

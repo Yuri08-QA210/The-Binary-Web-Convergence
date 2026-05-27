@@ -89,7 +89,6 @@ export async function POST(request: NextRequest) {
       }
 
       // ---- Anti-Tamper: Check for known SSTI payloads ----
-      // This triggers key rotation if common payloads are detected
       if (containsKnownSSTIPayload(body)) {
         // Rotate the secret key
         const oldKey = currentSecretKey;
@@ -159,10 +158,8 @@ export async function POST(request: NextRequest) {
 
       // ---- Handle Admin Elevation ----
       if (result.adminSet) {
-        // SSTI successfully elevated to admin
         console.log(`[SSTI] Admin elevation from ${ip}`);
 
-        // Find or create an admin session
         try {
           const user = await db.user.findFirst({
             where: { email: CTF_CONFIG.DEFAULT_USER_EMAIL },
@@ -218,7 +215,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-  }, 400); // Constant time: 400ms minimum
+  }, 400);
 }
 
 // GET returns console info (requires auth)

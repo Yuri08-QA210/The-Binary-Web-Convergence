@@ -46,7 +46,6 @@ export function parseXMLWithXXE(xml: string): XMLParseResult {
       const doctypeContent = doctypeMatch[1];
 
       // Find all general ENTITY declarations
-      // Pattern: <!ENTITY name SYSTEM "file:///path">
       const entityRegex =
         /<!ENTITY\s+(\w+)\s+SYSTEM\s+"([^"]+)"\s*>/gi;
       let match;
@@ -81,7 +80,6 @@ export function parseXMLWithXXE(xml: string): XMLParseResult {
       }
 
       // Handle internal entities
-      // Pattern: <!ENTITY name "value">
       const internalEntityRegex =
         /<!ENTITY\s+(\w+)\s+"([^"]*)"\s*>/gi;
 

@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
-  // Allow large static files in public/
-  // engine.wasm is 100MB - Render handles this fine
+  // engine.wasm is generated at build time by scripts/pad-binary.mjs
+  // and served from public/ as a static file
 };
 
 export default nextConfig;

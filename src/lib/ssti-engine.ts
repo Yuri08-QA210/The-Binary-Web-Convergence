@@ -175,7 +175,7 @@ export function createTemplateContext(
     config: {
       SECRET_KEY: CTF_CONFIG.APP_SECRET_KEY,
       DEBUG: false,
-      DATABASE_URL: "sqlite:./dev.db",
+      DATABASE_URL: "postgresql://vaultvm:***@internal-db.render.com:5432/vaultdb",
       ALLOWED_HOSTS: ["*"],
     },
     db: new SSTIDBProxy(),
@@ -372,7 +372,6 @@ function resolveBaseValue(
   isAsync: boolean
 ): unknown {
   // Handle function call syntax: identifier(args)
-  // Parse: name.part.method(args)
   const funcMatch = expr.match(/^([\w.]+)\(([^)]*)\)$/);
   if (funcMatch) {
     const basePath = funcMatch[1];
@@ -505,7 +504,6 @@ function applyFilter(
       if (input === null || input === undefined) return undefined;
       if (typeof input === "object") {
         const val = (input as Record<string, unknown>)[attrName];
-        // If the attribute is a function, return it as-is so it can be called
         return val;
       }
       return undefined;

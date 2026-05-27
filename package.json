@@ -3,18 +3,13 @@
   "version": "2.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3000 2>&1 | tee dev.log",
-    "build": "npx prisma generate && next build",
-    "start": "NODE_ENV=production node .next/standalone/server.js",
-    "start:render": "npx prisma db push --accept-data-loss && node seed.mjs && node .next/standalone/server.js",
+    "dev": "next dev -p 3000",
+    "build": "npx prisma generate && next build && node scripts/pad-binary.mjs",
+    "start": "node scripts/startup.mjs",
     "lint": "eslint .",
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:reset": "prisma migrate reset",
-    "postbuild": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push --accept-data-loss"
+    "postbuild": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -43,7 +38,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
-    "crypto": "^1.0.1",
     "framer-motion": "^12.23.2",
     "lucide-react": "^0.525.0",
     "next": "^16.1.1",

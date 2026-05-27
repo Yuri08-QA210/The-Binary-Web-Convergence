@@ -123,8 +123,6 @@ export async function GET(request: NextRequest) {
           availableVaults: Object.values(VAULT_BACKUPS).map((v) => ({
             id: v.id,
             name: v.name,
-            // IDOR: Hashed IDs are used but can be computed
-            // if attacker knows APP_SECRET_KEY + UUID
             hashedId: hashVaultUUID(v.uuid),
             fileCount: v.files.length,
             encrypted: v.encrypted,
