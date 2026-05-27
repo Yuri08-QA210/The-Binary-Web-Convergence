@@ -3,8 +3,8 @@
 // Runs Prisma migrations + seed + Next.js server
 // ============================================
 
-import { execSync } from 'child_process';
-import { existsSync } from 'fs';
+import { execSync, spawn } from 'child_process';
+import { existsSync, copyFileSync, mkdirSync, cpSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -59,20 +59,33 @@ if (!existsSync(enginePath)) {
 }
 
 // Step 5: Start Next.js server
+// IMPORTANT: Use `npx next start` instead of standalone server.js
+// The standalone import() method causes React hydration failures on Render.com
 console.log('[startup] Step 5: Starting Next.js server...');
-const standalonePath = join(ROOT, '.next', 'standalone', 'server.js');
-const standaloneEnvPath = join(ROOT, '.next', 'standalone', '.env');
 
-if (existsSync(standalonePath)) {
-  console.log('[startup] Using standalone build...');
-  // Import and run the standalone server
-  import(standalonePath);
-} else {
-  console.log('[startup] Standalone build not found, using next start...');
-  try {
-    execSync('npx next start -p 3000', { stdio: 'inherit', cwd: ROOT });
-  } catch (e) {
-    console.error('[startup] Server failed to start:', e.message);
-    process.exit(1);
-  }
-}
+const server = spawn('npx', ['next', 'start', '-p', '3000'], {
+  cwd: ROOT,
+  stdio: 'inherit',
+  env: { ...process.env, PORT: '3000', HOSTNAME: '0.0.0.0' },
+});
+
+server.on('error', (err) => {
+  console.error('[startup] Failed to start server:', err);
+  process.exit(1);
+});
+
+server.on('exit', (code) => {
+  console.log(`[startup] Server exited with code ${code}`);
+  process.exit(code || 0);
+});
+
+// Keep the process alive
+process.on('SIGINT', () => {
+  server.kill('SIGINT');
+});
+
+process.on('SIGTERM', () => {
+  server.kill('SIGTERM');
+});
+
+console.log('[startup] Server starting on port 3000...');

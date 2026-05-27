@@ -6,10 +6,10 @@
     "dev": "next dev -p 3000",
     "build": "npx prisma generate && next build && node scripts/pad-binary.mjs",
     "start": "node scripts/startup.mjs",
+    "start:direct": "next start -p 3000",
     "lint": "eslint .",
     "db:push": "prisma db push",
-    "db:generate": "prisma generate",
-    "postbuild": "cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/"
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",

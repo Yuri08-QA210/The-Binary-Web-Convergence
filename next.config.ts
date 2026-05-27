@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // DO NOT use output: "standalone" - it causes React hydration issues on Render.com
+  // Using `next start` directly works reliably
   typescript: {
     ignoreBuildErrors: true,
   },
